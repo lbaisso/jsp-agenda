@@ -6,12 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.aula.dao.ContatoDao;
 import br.com.aula.modelo.Contato;
 
 @WebServlet("/adicionaContato")
@@ -39,15 +41,20 @@ public class AdicionaContatoServlet extends HttpServlet {
 		String dataEmTexto = request.getParameter("dataNascimento");
 		Calendar dataNascimento = null;
 
-		// fazendo a conversão da data		
+		// fazendo a conversão da data	
+		Date date;
 		try {
-			Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dataEmTexto);
-			dataNascimento = Calendar.getInstance();
-			dataNascimento.setTime(date);
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(dataEmTexto);
 		} catch (Exception e) {
-			out.println("Erro de conversão da data");
-			return; //para a execução do método
+			try {
+				date = new SimpleDateFormat("dd/MM/yyyy").parse(dataEmTexto);
+			} catch (Exception exp) {
+				out.println("Erro na conversão de data");
+				return; //para a execução do método
+			}
 		}
+		dataNascimento = Calendar.getInstance();
+		dataNascimento.setTime(date);
 		
 		// monta um objeto contato
 		Contato contato = new Contato();
@@ -56,19 +63,23 @@ public class AdicionaContatoServlet extends HttpServlet {
 		contato.setEmail(email);
 		contato.setDataNascimento(dataNascimento);
 		
-		// // salva o contato
-		// try {
-			
-		// 	ContatoDao dao = new ContatoDao();
-		// 	dao.adiciona(contato);
+		// imprime o nome do contato que foi adicionado
+//				out.println("<html>");
+//				out.println("<body>");
+//				out.println("Contato " + contato.getNome() +
+//						" capturado com sucesso!!!");
+//				out.println("</body>");
+//				out.println("</html>");
 		
-		// 	RequestDispatcher rd = request
-		// 			.getRequestDispatcher("/contato-adicionado.jsp");
-		// 			rd.forward(request,response);
-			
-		// }catch (Exception e) {
-		// 	throw new ServletException(e);
-		// }
+		// // salva o contato
+		try {
+			ContatoDao dao = new ContatoDao();
+			dao.adiciona(contato);
+			RequestDispatcher rd = request.getRequestDispatcher("/contato-adicionado.jsp");
+			rd.forward(request,response);
+		}catch (Exception e) {
+		 	throw new ServletException(e);
+		}
 		
 	}
 
