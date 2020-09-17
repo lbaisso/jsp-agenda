@@ -5,10 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Projeto fj21-agenda</title>
+<title>Projeto Agenda</title>
 </head>
 <body>
-	<p>Contato ${param.nome} adicionado com sucesso. Resquest realizado
-		via Servlet "AdicionaContatoServlet".</p>
+	<p>Contato ${param.nome} adicionado com sucesso.</p>
+	<p>Nome: ${param.nome}.</p>
+	<p>Email: ${param.email}.</p>
+	<p>Endereço: ${param.endreco}.</p>
+	<p>Data de nascimento: ${param.dataNascimento}.</p>
 </body>
 </html>
