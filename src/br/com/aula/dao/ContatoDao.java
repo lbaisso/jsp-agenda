@@ -153,23 +153,23 @@ public class ContatoDao {
 //		}
 //	}
 //
-//	@Override
-//	public void remove(Object obj) {
-//		if (!(obj instanceof Contato)) {
-//			return;
-//		}
-//		Contato contato = (Contato) obj;
-//		try {
-//			PreparedStatement stmt = connection
-//					.prepareStatement("DELETE FROM contatos WHERE id=?");
-//			stmt.setLong(1, contato.getId());
-//
-//			stmt.execute();
-//			stmt.close();
-//		} catch (SQLException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
+	//@Override
+	public void remove(Object obj) {
+		if (!(obj instanceof Contato)) {
+			return;
+		}
+		Contato contato = (Contato) obj;
+		try {
+			PreparedStatement stmt = connection
+					.prepareStatement("DELETE FROM contatos WHERE id=?");
+			stmt.setLong(1, contato.getId());
+
+			stmt.execute();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 //
 //	private Contato montaContatoComResultSet(ResultSet rs) {
 //		try {
